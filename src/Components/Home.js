@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Home extends Component{
    
@@ -28,9 +29,9 @@ class Home extends Component{
                     <a href={resumeDownload} download className=" btn btn--stroke">
                     <i className="fa fa-download"></i> Download CV
                     </a>
-                    <a href="/about" className=" btn btn--stroke">
-                        More About Me
-                    </a>
+                    {/* <a href="/about" className=" "> */}
+                    <Link className="btn btn--stroke" to="/about"> More About Me</Link>
+                    {/* </a> */}
                 </div>
                <hr />
                <ul className="social">

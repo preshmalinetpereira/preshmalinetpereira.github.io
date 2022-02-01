@@ -26,7 +26,7 @@ class About extends Component {
                   <p class="u-text u-text-2"> Under Construction...</p>
                </div>
             </section>
-            <div class="row about-content">
+            {/* <div class="row about-content">
 
             <div class="col-six tab-full left">
                 <h3>Howdy!</h3>
@@ -69,7 +69,7 @@ class About extends Component {
                 </ul>
             </div>
 
-        </div> 
+        </div>  */}
         {/* <!-- end about-content --> */}
 
         <div class="row about-content about-content--buttons">
