@@ -53,6 +53,7 @@ class App extends Component {
               <Route path="/about" element={<About data={this.state.resumeData.main}/>} />
               {/* <Route path="/resume" element={<Resume data={this.state.resumeData.resume}/>} /> */}
               <Route path="/portfolio" element={<Portfolio data={this.state.resumeData.portfolio}/>} />
+              <Route path="/blog" element={() => { window.location.href = 'https://preshmalinetpereira.wordpress.com'; return null;}} />
               {/* <Route path="/contact" element={<Contact data={this.state.resumeData.contact}/>} /> */}
         </Routes>
         </BrowserRouter>

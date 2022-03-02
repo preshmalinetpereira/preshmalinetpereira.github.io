@@ -17,7 +17,7 @@ class Header extends Component {
             <li><NavLink exact="true" className={"aboutNav"} to="/about">About</NavLink></li>
             {/* <li><NavLink exact="true" className={"resumeNav"} to="/resume">Resume</NavLink></li> */}
             <li><NavLink exact="true" className={"portfolioNav"} to="/portfolio">Portfolio</NavLink></li>
-            <li><NavLink exact="true" className={"blogNav"} to="#https://preshmalinetpereira.wordpress.com">Blog</NavLink></li>
+            <li><NavLink exact="true" className={"blogNav"} to="/blog">Blog</NavLink></li>
             {/* <li><NavLink exact="true" className={"contactNav"} to="/contact">Contact</NavLink></li> */}
           </ul>
         </nav>
