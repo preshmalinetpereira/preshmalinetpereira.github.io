@@ -1,6 +1,6 @@
 {
-  "name": "my-website",
-  "homepage": "https://preshmalinetpereira.github.io/",
+  "name": "preshmalinetpereira.github.io",
+  "homepage": "https://preshmalinetpereira.github.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

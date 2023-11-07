@@ -16,6 +16,7 @@ class Header extends Component {
             <li><NavLink exact="true" className={"homeNav"} to="/">Home</NavLink></li>
             <li><NavLink exact="true" className={"aboutNav"} to="/about">About</NavLink></li>
             <li><NavLink className={"resumeNav"} to={{ pathname: "//linetpreshma.notion.site/linetpreshma/Preshma-Linet-Pereira-Resume-3e933c388bf14365b01f4e01f24737dc" }}  >Resume</NavLink></li>
+            {/* <li><NavLink exact="true" className={"resumeNav"} to="/resume">Resume</NavLink></li> */}
             <li><NavLink exact="true" className={"portfolioNav"} to="/portfolio">Portfolio</NavLink></li>
             <li><NavLink exact="true" className={"blogNav"} to={{pathname: "//preshmalinetpereira.wordpress.com"}}>Blog</NavLink></li>
             <li><NavLink exact="true" className={"contactNav"} to="/contact">Contact</NavLink></li>
