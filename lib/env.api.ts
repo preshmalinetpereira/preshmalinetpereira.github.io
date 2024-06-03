@@ -15,12 +15,10 @@ export const token = checkValue(
   "NEXT_PUBLIC_SANITY_ACCESS_TOKEN",
   "https://sanity.io"
 );
-
+export const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT || "http://localhost:3000";
 export const hookSecret = process.env.NEXT_PUBLIC_SANITY_HOOK_SECRET;
 export const mode = process.env.NODE_ENV;
-
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-05-31";
+export const apiVersion =   process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-05-31";
 
 export const giscusRepoId = checkValue(
   process.env.NEXT_PUBLIC_GISCUS_REPOID,

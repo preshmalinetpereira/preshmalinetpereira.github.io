@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINT } from "@/lib/env.api";
 import {
   BiLogoTwitter,
   BiLogoLinkedinSquare,
@@ -14,7 +15,7 @@ type props = {
 };
 
 export default function SharePost({ title, slug, description }: props) {
-  const blog = encodeURIComponent("http://localhost:3000/blog/");
+  const blog = encodeURIComponent(API_ENDPOINT + "/blog/");
   const options = [
     {
       icon: BiLogoTwitter,

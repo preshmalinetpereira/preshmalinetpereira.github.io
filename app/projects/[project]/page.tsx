@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Metadata } from "next";
-import { singleProjectQuery } from "@/lib/sanity.query";
+import { projectsQuery, singleProjectQuery } from "@/lib/sanity.query";
 import type { ProjectType } from "@/types";
 import { PortableText } from "@portabletext/react";
 import { CustomPortableText } from "@/app/components/shared/CustomPortableText";
@@ -8,6 +8,7 @@ import { Slide } from "../../animation/Slide";
 import { urlFor } from "@/lib/sanity.image";
 import { sanityFetch } from "@/lib/sanity.client";
 import { BiLinkExternal, BiLogoGithub } from "react-icons/bi";
+import { API_ENDPOINT } from "@/lib/env.api";
 
 // #TODO
 
@@ -18,6 +19,15 @@ type Props = {
 };
 
 const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg";
+
+export async function generateStaticParams() {
+  const posts: ProjectType[] = await sanityFetch({
+    query: projectsQuery,
+    tags: ["project"],
+  });
+
+  return posts.map(project => ({ project: project.slug }));
+}
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -30,11 +40,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${project.name} | Project`,
-    metadataBase: new URL(`http://localhost:3000/projects/${project.slug}`),
+    metadataBase: new URL(API_ENDPOINT + `/projects/${project.slug}`),
     description: project.tagline,
     openGraph: {
       images: project.coverImage? urlFor(project.coverImage.image).width(1200).height(630).url() : fallbackImage,
-      url: `http://localhost:3000/projects/${project.slug}`,
+      url: API_ENDPOINT + `/projects/${project.slug}`,
       title: project.name,
       description: project.tagline,
     },

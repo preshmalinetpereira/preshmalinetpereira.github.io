@@ -7,14 +7,15 @@ import EmptyState from "../components/shared/EmptyState";
 import { Slide } from "../animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import PageHeading from "../components/shared/PageHeading";
+import { API_ENDPOINT } from "@/lib/env.api";
 // #TODO
 export const metadata: Metadata = {
   title: "Projects | Linet Preshma Pereira",
-  metadataBase: new URL("http://localhost:3000/projects"),
+  metadataBase: new URL(API_ENDPOINT + "/projects"),
   description: "Explore projects built by Linet Preshma Pereira",
   openGraph: {
     title: "Projects | Linet Preshma Pereira",
-    url: "http://localhost:3000/projects",
+    url: API_ENDPOINT + "/projects",
     description: "Explore projects built by Linet Preshma Pereira",
     images:
       "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg",
@@ -26,6 +27,8 @@ export default async function Project() {
     query: projectsQuery,
     tags: ["project"],
   });
+
+  
 
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6">

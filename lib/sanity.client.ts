@@ -34,6 +34,3 @@ export async function sanityFetch<QueryResponse>({
   });
 }
 
-// projectId: "g17lkft2",
-// dataset: "production",
-// apiVersion: "2024-05-31",

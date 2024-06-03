@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { PostType } from "@/types";
-import { singlePostQuery } from "@/lib/sanity.query";
+import { postsQuery, singlePostQuery } from "@/lib/sanity.query";
 import { PortableText, toPlainText } from "@portabletext/react";
 import { CustomPortableText } from "../../components/shared/CustomPortableText";
 import { BiChevronRight, BiSolidTime, BiTime } from "react-icons/bi";
@@ -18,15 +18,23 @@ import { HiCalendar, HiChat } from "react-icons/hi";
 import { sanityFetch } from "@/lib/sanity.client";
 import { readTime } from "@/app/utils/readTime";
 import PageHeading from "@/app/components/shared/PageHeading";
+import { API_ENDPOINT } from "@/lib/env.api";
 
 type Props = {
   params: {
     post: string;
   };
 };
-// #TODO
-const fallbackImage: string =
-  "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
+const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
+
+export async function generateStaticParams() {
+  const posts: PostType[] = await sanityFetch({
+    query: postsQuery,
+    tags: ["Post"],
+  });
+
+  return posts.map(post => ({ post: post.slug }));
+}
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -43,17 +51,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${post.title}`,
-    metadataBase: new URL(`http://localhost:3000//blog/${post.slug}`),
+    metadataBase: new URL(API_ENDPOINT +`/blog/${post.slug}`),
     description: post.description,
     publisher: post.author.name,
     keywords: post.tags,
     alternates: {
       canonical:
-        post.canonicalLink || `http://localhost:3000//blog/${post.slug}`,
+        post.canonicalLink || API_ENDPOINT +`/blog/${post.slug}`,
     },
     openGraph: {
       images: post.coverImage? urlFor(post.coverImage.image).width(1200).height(630).url() : fallbackImage,
-      url: `http://localhost:3000//blog/${post.slug}`,
+      url: API_ENDPOINT +`/blog/${post.slug}`,
       title: post.title,
       description: post.description,
       type: "article",
@@ -73,6 +81,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
+
 
 export default async function Post({ params }: Props) {
   const slug = params.post;

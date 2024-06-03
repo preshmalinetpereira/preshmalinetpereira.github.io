@@ -12,15 +12,16 @@ import Usage from "../components/pages/Usage";
 import { Slide } from "../animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import PageHeading from "@/app/components/shared/PageHeading";
+import { API_ENDPOINT } from "@/lib/env.api";
 
 export const metadata: Metadata = {
   title: "About | Preshma Linet Pereira",
-  metadataBase: new URL("http://localhost:3000/about"),
+  metadataBase: new URL(API_ENDPOINT + "/about"),
   description:
     "Learn more about my skills, experience and technical background",
   openGraph: {
     title: "About | Preshma Linet Pereira",
-    url: "http://localhost:3000/about",
+    url: API_ENDPOINT + "/about",
     description:
       "Learn more about my skills, experience and technical background",
     images:
