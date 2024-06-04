@@ -14,8 +14,7 @@ export const metadata: Metadata = {
     title: "Blogs | Linet Preshma Pereira",
     url: API_ENDPOINT + "/blog",
     description: "Read latest stories from Linet Preshma Pereira's Blog",
-    images:
-      "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q",
+    images: "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q",
   },
 };
 
@@ -24,7 +23,7 @@ export default async function Blog() {
     <main className="max-w-7xl mx-auto md:px-16 px-6">
       <PageHeading
         title="Blog"
-        description="Welcome to my blog domain where I share personal stories about things I've learned, projects I'm hacking on and just general findings. I also write for other publications."
+        description="Welcome to my blog domain where I share personal stories about things I've learned, projects I'm working on and my technology findings."
       >
         <Social type="publication" />
       </PageHeading>

@@ -19,11 +19,9 @@ const inter = Inter({
 
 const options = {
   title: "Preshma Linet Pereira | Data Scientist & Software Developer",
-  description:
-    "#todo",
+  description: "#todo",
   url: API_ENDPOINT,
-  ogImage:
-    "",
+  ogImage: "",
 };
 
 export const metadata: Metadata = {

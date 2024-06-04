@@ -9,16 +9,12 @@ import { urlFor } from "@/lib/sanity.image";
 import { sanityFetch } from "@/lib/sanity.client";
 import { BiLinkExternal, BiLogoGithub } from "react-icons/bi";
 import { API_ENDPOINT } from "@/lib/env.api";
-
+import projects_placeholder from "@/public/projects_placeholder.png"
 // #TODO
 
-type Props = {
-  params: {
-    project: string;
-  };
-};
+type Props = { params: { project: string }; };
 
-const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg";
+//const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg";
 
 export async function generateStaticParams() {
   const posts: ProjectType[] = await sanityFetch({
@@ -43,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     metadataBase: new URL(API_ENDPOINT + `/projects/${project.slug}`),
     description: project.tagline,
     openGraph: {
-      images: project.coverImage? urlFor(project.coverImage.image).width(1200).height(630).url() : fallbackImage,
+      images: project.coverImage ? urlFor(project.coverImage?.image).width(1200).height(630).url() : projects_placeholder.src ,
       url: API_ENDPOINT + `/projects/${project.slug}`,
       title: project.name,
       description: project.tagline,
@@ -103,7 +99,7 @@ export default async function Project({ params }: Props) {
             <Image
               className="rounded-xl border dark:border-zinc-800 border-zinc-100 object-cover"
               layout="fill"
-              src={project.coverImage?.image || fallbackImage}
+              src={project.coverImage?.image || projects_placeholder.src}
               alt={project.coverImage?.alt || project.name}
               quality={100}
               placeholder={project.coverImage?.lqip ? `blur` : "empty"}

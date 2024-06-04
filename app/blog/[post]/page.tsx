@@ -19,13 +19,11 @@ import { sanityFetch } from "@/lib/sanity.client";
 import { readTime } from "@/app/utils/readTime";
 import PageHeading from "@/app/components/shared/PageHeading";
 import { API_ENDPOINT } from "@/lib/env.api";
+import blog_placeholder from "../../../public/blog_placeholder.png"
 
-type Props = {
-  params: {
-    post: string;
-  };
-};
-const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
+type Props = { params: { post: string }; };
+
+//const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
 
 export async function generateStaticParams() {
   const posts: PostType[] = await sanityFetch({
@@ -60,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         post.canonicalLink || API_ENDPOINT +`/blog/${post.slug}`,
     },
     openGraph: {
-      images: post.coverImage? urlFor(post.coverImage.image).width(1200).height(630).url() : fallbackImage,
+      images: post.coverImage? urlFor(post.coverImage?.image).width(1200).height(630).url() : blog_placeholder.src,
       url: API_ENDPOINT +`/blog/${post.slug}`,
       title: post.title,
       description: post.description,
@@ -74,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       title: post.title,
       description: post.description,
-      images: post.coverImage? urlFor(post.coverImage.image).width(680).height(340).url() : fallbackImage,
+      images: post.coverImage? urlFor(post.coverImage?.image).width(680).height(340).url() : blog_placeholder.src,
       creator: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
       site: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
       card: "summary_large_image",
@@ -101,11 +99,18 @@ export default async function Post({ params }: Props) {
     <main className="max-w-7xl mx-auto md:px-16 px-6">
       <header>
         <Slide className="relative flex items-center gap-x-2 border-b dark:border-zinc-800 border-zinc-200 pb-8">
+        <Link
+            href="/"
+            className="whitespace-nowrap dark:text-zinc-400 text-zinc-400 hover:dark:text-white hover:text-zinc-700 text-sm border-b dark:border-zinc-700 border-zinc-200"
+          >
+            Home ..
+          </Link>
+        <BiChevronRight />
           <Link
             href="/blog"
             className="whitespace-nowrap dark:text-zinc-400 text-zinc-400 hover:dark:text-white hover:text-zinc-700 text-sm border-b dark:border-zinc-700 border-zinc-200"
           >
-            cd ..
+            Blogs ..
           </Link>
           <BiChevronRight />
           <p className="text-zinc-400 text-sm truncate">{post.title}</p>
@@ -143,7 +148,7 @@ export default async function Post({ params }: Props) {
               <Image
                 className="rounded-xl border dark:border-zinc-800 border-zinc-100 object-cover"
                 layout="fill"
-                src={post.coverImage?.image || fallbackImage}
+                src={post.coverImage?.image || blog_placeholder.src}
                 alt={post.coverImage?.alt || post.title}
                 quality={100}
                 placeholder={post.coverImage?.lqip ? `blur` : "empty"}
@@ -164,10 +169,7 @@ export default async function Post({ params }: Props) {
               <address className="flex items-center gap-x-3 mt-4 not-italic">
                 <div className="relative w-12 h-12">
                   <Image
-                    src={urlFor(post.author.photo.image)
-                      .width(80)
-                      .height(80)
-                      .url()}
+                    src={urlFor(post.author.photo.image).width(80).height(80).url()}
                     alt={post.author.photo.alt}
                     layout="fill"
                     className="dark:bg-zinc-800 bg-zinc-300 rounded-full object-cover"

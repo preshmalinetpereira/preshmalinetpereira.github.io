@@ -28,8 +28,7 @@ export const metadata: Metadata = {
     title: "Photos | Linet Preshma Pereira",
     url: "http://localhost:3000/photos",
     description: "Explore photos taken by Linet Preshma Pereira",
-    images:
-      "https://drive.google.com/uc?export=view&id=1tG0RhLD9NHBrmM25qM9K2ayiADSVbFb-",
+    images: "https://drive.google.com/uc?export=view&id=1tG0RhLD9NHBrmM25qM9K2ayiADSVbFb-",
   },
 };
 

@@ -9,9 +9,9 @@ import { HiCalendar } from "react-icons/hi";
 import { sanityFetch } from "@/lib/sanity.client";
 import { readTime } from "@/app/utils/readTime";
 import { toPlainText } from "@portabletext/react";
+import blog_placeholder from "../../../public/blog_placeholder.png";
 
-const fallbackImage: string =
-  "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
+//const fallbackImage: string =  "https://drive.google.com/uc?id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
 
 export default async function Posts() {
   const posts: PostType[] = await sanityFetch({
@@ -32,12 +32,16 @@ export default async function Posts() {
                 >
                   <div className="relative lg:w-[450px] lg:h-52 w-full h-56 overflow-clip">
                     <Image
-                      src={post.coverImage?.image || fallbackImage}
+                      src={post.coverImage?.image || blog_placeholder.src }
                       className="dark:bg-zinc-800 bg-zinc-100 rounded-md object-cover group-hover:scale-125 duration-300"
                       alt={post.coverImage?.alt || post.title}
                       layout="fill"
                       placeholder={post.coverImage ? "blur" : "empty"}
                       blurDataURL={post.coverImage?.lqip || ""}
+                      // width= {450}
+                      // height= {52}
+                      priority = {true}
+                      unoptimized = {true}
                     />
                   </div>
                   <div className="max-w-lg">
@@ -53,9 +57,7 @@ export default async function Posts() {
                         <time
                           dateTime={post.date ? post.date : post._createdAt}
                         >
-                          {post.date
-                            ? formatDate(post.date)
-                            : formatDate(post._createdAt)}
+                          {post.date ? formatDate(post.date) : formatDate(post._createdAt)}
                         </time>
                       </div>
                       <div className="flex items-center gap-x-2">

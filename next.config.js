@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: "export",  // <=== enables static exports
-  // reactStrictMode: true,
+  output: "export",  // <=== enables static exports
+
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -13,7 +14,11 @@ const nextConfig = {
       { hostname: "res.cloudinary.com" },
       { hostname: "www.google.com" },
       { hostname: "images.unsplash.com" },
-      { hostname: "drive.google.com"}
+      {
+        protocol: "https",
+        hostname: "drive.google.com",
+        port: "",
+      },
     ],
   },
 };

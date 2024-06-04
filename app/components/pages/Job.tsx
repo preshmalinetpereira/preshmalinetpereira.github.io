@@ -46,10 +46,7 @@ export default async function Job() {
                 <h3 className="text-xl font-semibold">{data.name}</h3>
                 <p>{data.jobTitle}</p>
                 <time className="text-sm text-zinc-500 mt-2 tracking-widest uppercase">
-                  {formatDate(data.startDate)} -{" "}
-                  {data.endDate ? (
-                    formatDate(data.endDate)
-                  ) : (
+                  {formatDate(data.startDate)} - {" "}{data.endDate ? (formatDate(data.endDate)) : (
                     <span className="dark:text-primary-color text-tertiary-color">
                       Present
                     </span>
