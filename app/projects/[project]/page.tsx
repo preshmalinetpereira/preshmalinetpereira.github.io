@@ -10,19 +10,26 @@ import { sanityFetch } from "@/lib/sanity.client";
 import { BiLinkExternal, BiLogoGithub } from "react-icons/bi";
 import { API_ENDPOINT } from "@/lib/env.api";
 import projects_placeholder from "@/public/projects_placeholder.png"
+import { notFound } from "next/navigation";
 // #TODO
 
 type Props = { params: { project: string }; };
 
 //const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg";
 
+
 export async function generateStaticParams() {
-  const posts: ProjectType[] = await sanityFetch({
+
+  const projects: ProjectType[] = await sanityFetch({
     query: projectsQuery,
     tags: ["project"],
   });
+  if (!projects || projects.length === 0) {
+    return [{ project: 'not-found' }];
+  }
 
-  return posts.map(project => ({ project: project.slug }));
+
+  return projects.map(p => ({ project: p.slug }));
 }
 
 // Dynamic metadata for SEO
@@ -31,9 +38,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project: ProjectType = await sanityFetch({
     query: singleProjectQuery,
     tags: ["project"],
-    qParams: { slug },
+    qParams: { slug  },
   });
-
   return {
     title: `${project.name} | Project`,
     metadataBase: new URL(API_ENDPOINT + `/projects/${project.slug}`),
@@ -47,13 +53,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Project({ params }: Props) {
-  const slug = params.project;
+export default async function Project(props: Props) {
+  const slug = props.params.project;
   const project: ProjectType = await sanityFetch({
     query: singleProjectQuery,
     tags: ["project"],
     qParams: { slug },
   });
+
+  if (!project) {
+    notFound();
+  }
 
   return (
     <main className="max-w-6xl mx-auto lg:px-16 px-8">
@@ -69,11 +79,10 @@ export default async function Project({ params }: Props) {
                 href={project.projectUrl}
                 rel="noreferrer noopener"
                 target="_blank"
-                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${
-                  !project.projectUrl
+                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${!project.projectUrl
                     ? "cursor-not-allowed opacity-80"
                     : "cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
-                }`}
+                  }`}
               >
                 <BiLinkExternal aria-hidden="true" />
                 {project.projectUrl ? "Live URL" : "Coming Soon"}
@@ -83,11 +92,10 @@ export default async function Project({ params }: Props) {
                 href={project.repository}
                 rel="noreferrer noopener"
                 target="_blank"
-                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${
-                  !project.repository
+                className={`flex items-center gap-x-2 dark:bg-primary-bg bg-secondary-bg dark:text-white text-zinc-700 border border-transparent rounded-md px-4 py-2 duration-200 ${!project.repository
                     ? "cursor-not-allowed opacity-80"
                     : "cursor-pointer hover:dark:border-zinc-700 hover:border-zinc-200"
-                }`}
+                  }`}
               >
                 <BiLogoGithub aria-hidden="true" />
                 {project.repository ? "GitHub" : "No Repo"}

@@ -20,6 +20,7 @@ import { readTime } from "@/app/utils/readTime";
 import PageHeading from "@/app/components/shared/PageHeading";
 import { API_ENDPOINT } from "@/lib/env.api";
 import blog_placeholder from "../../../public/blog_placeholder.png"
+import EmptyState from "@/app/components/shared/EmptyState";
 
 type Props = { params: { post: string }; };
 
@@ -31,8 +32,13 @@ export async function generateStaticParams() {
     tags: ["Post"],
   });
 
+  if (!posts || posts.length === 0) {
+    // notFound();
+    return [{ post: 'not-found' }];
+  }
   return posts.map(post => ({ post: post.slug }));
 }
+
 
 // Dynamic metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -49,17 +55,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${post.title}`,
-    metadataBase: new URL(API_ENDPOINT +`/blog/${post.slug}`),
+    metadataBase: new URL(API_ENDPOINT + `/blog/${post.slug}`),
     description: post.description,
     publisher: post.author.name,
     keywords: post.tags,
     alternates: {
       canonical:
-        post.canonicalLink || API_ENDPOINT +`/blog/${post.slug}`,
+        post.canonicalLink || API_ENDPOINT + `/blog/${post.slug}`,
     },
     openGraph: {
-      images: post.coverImage? urlFor(post.coverImage?.image).width(1200).height(630).url() : blog_placeholder.src,
-      url: API_ENDPOINT +`/blog/${post.slug}`,
+      images: post.coverImage ? urlFor(post.coverImage?.image).width(1200).height(630).url() : blog_placeholder.src,
+      url: API_ENDPOINT + `/blog/${post.slug}`,
       title: post.title,
       description: post.description,
       type: "article",
@@ -72,7 +78,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       title: post.title,
       description: post.description,
-      images: post.coverImage? urlFor(post.coverImage?.image).width(680).height(340).url() : blog_placeholder.src,
+      images: post.coverImage ? urlFor(post.coverImage?.image).width(680).height(340).url() : blog_placeholder.src,
       creator: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
       site: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
       card: "summary_large_image",
@@ -92,20 +98,20 @@ export default async function Post({ params }: Props) {
   const words = toPlainText(post.body);
 
   if (!post) {
-    notFound();
+    return (<EmptyState value="Blog Post" />)
   }
 
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6">
       <header>
         <Slide className="relative flex items-center gap-x-2 border-b dark:border-zinc-800 border-zinc-200 pb-8">
-        <Link
+          <Link
             href="/"
             className="whitespace-nowrap dark:text-zinc-400 text-zinc-400 hover:dark:text-white hover:text-zinc-700 text-sm border-b dark:border-zinc-700 border-zinc-200"
           >
             Home ..
           </Link>
-        <BiChevronRight />
+          <BiChevronRight />
           <Link
             href="/blog"
             className="whitespace-nowrap dark:text-zinc-400 text-zinc-400 hover:dark:text-white hover:text-zinc-700 text-sm border-b dark:border-zinc-700 border-zinc-200"
