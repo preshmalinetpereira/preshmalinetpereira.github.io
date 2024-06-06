@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: post.title,
       description: post.description,
       type: "article",
-      siteName: "preshmalinetpereira.github.io",
+      siteName: "linet.vercel.app",
       authors: post.author.name,
       tags: post.tags,
       publishedTime: post._createdAt,

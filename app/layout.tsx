@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: options.title,
     url: options.url,
-    siteName: "preshmalinetpereira.github.io",
+    siteName: "linet.vercel.app",
     locale: "en-US",
     type: "website",
     description: options.description,

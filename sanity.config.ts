@@ -8,7 +8,7 @@ import {richDate} from '@sanity/rich-date-input'
 
 export default defineConfig({
   name: 'linetpreshma',
-  title: 'preshmalinetpereira.github.io',
+  title: 'linet.vercel.app',
   projectId,
   dataset,
   basePath: "/studio",
