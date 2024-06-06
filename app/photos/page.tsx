@@ -2,6 +2,7 @@ import { Slide } from "../animation/Slide";
 import Image from "next/image";
 import { Metadata } from "next";
 import PageHeading from "@/app/components/shared/PageHeading";
+import { API_ENDPOINT } from "@/lib/env.api";
 
 const images = [
   {
@@ -22,11 +23,11 @@ const images = [
 
 export const metadata: Metadata = {
   title: "Photos | Linet Preshma Pereira",
-  metadataBase: new URL("http://localhost:3000/photos"),
+  metadataBase: new URL(API_ENDPOINT + "/photos"),
   description: "Explore photos taken by Linet Preshma Pereira",
   openGraph: {
     title: "Photos | Linet Preshma Pereira",
-    url: "http://localhost:3000/photos",
+    url: API_ENDPOINT + "/photos",
     description: "Explore photos taken by Linet Preshma Pereira",
     images:
       "https://drive.google.com/uc?export=view&id=1tG0RhLD9NHBrmM25qM9K2ayiADSVbFb-",

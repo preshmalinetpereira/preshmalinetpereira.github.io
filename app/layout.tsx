@@ -7,6 +7,7 @@ import { gitlabmono } from "./font/font";
 import Navbar from "./components/global/Navbar";
 import Footer from "./components/global/Footer";
 import { Providers } from "./providers";
+import { API_ENDPOINT } from "@/lib/env.api";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,9 +19,8 @@ const inter = Inter({
 
 const options = {
   title: "Preshma Linet Pereira | Data Scientist & Software Developer",
-  description:
-    "#todo",
-  url: "http://localhost:3000",
+  description: "A seasoned professional with 2 degrees in computer science and 5+ years of experience developing computer programs",
+  url: API_ENDPOINT ,
   ogImage:
     "",
 };

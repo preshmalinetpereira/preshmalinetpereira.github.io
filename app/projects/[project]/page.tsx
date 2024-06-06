@@ -8,6 +8,7 @@ import { Slide } from "../../animation/Slide";
 import { urlFor } from "@/lib/sanity.image";
 import { sanityFetch } from "@/lib/sanity.client";
 import { BiLinkExternal, BiLogoGithub } from "react-icons/bi";
+import { API_ENDPOINT } from "@/lib/env.api";
 
 // #TODO
 
@@ -30,11 +31,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${project.name} | Project`,
-    metadataBase: new URL(`http://localhost:3000/projects/${project.slug}`),
+    metadataBase: new URL(API_ENDPOINT + `/projects/${project.slug}`),
     description: project.tagline,
     openGraph: {
       images: project.coverImage? urlFor(project.coverImage.image).width(1200).height(630).url() : fallbackImage,
-      url: `http://localhost:3000/projects/${project.slug}`,
+      url: API_ENDPOINT + `/projects/${project.slug}`,
       title: project.name,
       description: project.tagline,
     },
