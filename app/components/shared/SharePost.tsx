@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINT } from "@/lib/env.api";
 import {
   BiLogoTwitter,
   BiLogoLinkedinSquare,

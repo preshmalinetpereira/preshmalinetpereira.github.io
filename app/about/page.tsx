@@ -17,8 +17,7 @@ import { API_ENDPOINT } from "@/lib/env.api";
 export const metadata: Metadata = {
   title: "About | Preshma Linet Pereira",
   metadataBase: new URL(API_ENDPOINT + "/about"),
-  description:
-    "Learn more about my skills, experience and technical background",
+  description: "Learn more about my skills, experience and technical background",
   openGraph: {
     title: "About | Preshma Linet Pereira",
     url: API_ENDPOINT + "/about",
