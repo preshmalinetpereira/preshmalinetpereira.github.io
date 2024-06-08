@@ -1,4 +1,5 @@
 // app/page.tsx
+'use client'
 
 import { profileQuery } from "@/lib/sanity.query";
 import type { ProfileType } from "@/types";
@@ -7,12 +8,25 @@ import Job from "./components/pages/Job";
 import Social from "./components/shared/Social";
 import { Slide } from "./animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
+import useSWR from 'swr'
 
-export default async function Home() {
-  const profile: ProfileType[] = await sanityFetch({
-    query: profileQuery,
-    tags: ["profile"],
-  });
+export default function Home() {
+  // const profile: ProfileType[] = await sanityFetch({
+  //   query: profileQuery,
+  //   tags: ["profile"],
+  // });
+  function GetProfile() {
+    const { data, error, isLoading } = useSWR({query:profileQuery, tags:["profile"]}, sanityFetch);
+  
+    return {
+      data : data,
+      isLoading,
+      isError: error,
+    };
+    
+  }
+  const { data } = GetProfile();
+  const profile = data as ProfileType[]
 
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6 lg:mt-32 mt-20">

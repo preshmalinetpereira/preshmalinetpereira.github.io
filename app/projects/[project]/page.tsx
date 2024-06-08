@@ -1,70 +1,41 @@
+
 import Image from "next/image";
-import { Metadata } from "next";
-import { projectsQuery, singleProjectQuery } from "@/lib/sanity.query";
 import type { ProjectType } from "@/types";
 import { PortableText } from "@portabletext/react";
 import { CustomPortableText } from "@/app/components/shared/CustomPortableText";
 import { Slide } from "../../animation/Slide";
 import { urlFor } from "@/lib/sanity.image";
-import { sanityFetch } from "@/lib/sanity.client";
 import { BiLinkExternal, BiLogoGithub } from "react-icons/bi";
-import { API_ENDPOINT } from "@/lib/env.api";
 import projects_placeholder from "@/public/projects_placeholder.png"
 import { notFound } from "next/navigation";
-// #TODO
+import GetProject from "./getproject";
+import GetProjects from "./getprojects";
 
 type Props = { params: { project: string }; };
 
-//const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg";
-
-
 export async function generateStaticParams() {
-
-  const projects: ProjectType[] = await sanityFetch({
-    query: projectsQuery,
-    tags: ["project"],
-  });
-  if (!projects || projects.length === 0) {
+  const { data, isLoading, isError } = GetProjects();
+  
+  // if (!projects || projects.length === 0) {
+  if (isError || data instanceof Error){  
     return [{ project: 'not-found' }];
   }
-
-
+  const projects = data as ProjectType[]
   return projects.map(p => ({ project: p.slug }));
+
 }
 
-// Dynamic metadata for SEO
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export default function Project({params}: Props) {
   const slug = params.project;
-  const project: ProjectType = await sanityFetch({
-    query: singleProjectQuery,
-    tags: ["project"],
-    qParams: { slug  },
-  });
-  return {
-    title: `${project.name} | Project`,
-    metadataBase: new URL(API_ENDPOINT + `/projects/${project.slug}`),
-    description: project.tagline,
-    openGraph: {
-      images: project.coverImage ? urlFor(project.coverImage?.image).width(1200).height(630).url() : projects_placeholder.src ,
-      url: API_ENDPOINT + `/projects/${project.slug}`,
-      title: project.name,
-      description: project.tagline,
-    },
-  };
-}
 
-export default async function Project(props: Props) {
-  const slug = props.params.project;
-  const project: ProjectType = await sanityFetch({
-    query: singleProjectQuery,
-    tags: ["project"],
-    qParams: { slug },
-  });
 
-  if (!project) {
+
+	const { data, isLoading, isError } = GetProject(slug);
+
+  if (!isError) {
     notFound();
   }
-
+  const project = data as ProjectType
   return (
     <main className="max-w-6xl mx-auto lg:px-16 px-8">
       <Slide>

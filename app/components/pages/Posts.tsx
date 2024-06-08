@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { postsQuery } from "@/lib/sanity.query";
@@ -10,18 +11,30 @@ import { sanityFetch } from "@/lib/sanity.client";
 import { readTime } from "@/app/utils/readTime";
 import { toPlainText } from "@portabletext/react";
 import blog_placeholder from "../../../public/blog_placeholder.png";
+import useSWR from 'swr'
 
 //const fallbackImage: string =  "https://drive.google.com/uc?id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
+function GetPosts() {
+  const { data, error, isLoading } = useSWR({query:postsQuery, tags:["Post"]}, sanityFetch);
 
-export default async function Posts() {
-  const posts: PostType[] = await sanityFetch({
-    query: postsQuery,
-    tags: ["Post"],
-  });
+  return {
+    data : data,
+    isLoading,
+    isError: error,
+  };
+}
+
+export default function Posts() {
+  // const posts: PostType[] = await sanityFetch({
+  //   query: postsQuery,
+  //   tags: ["Post"],
+  // });
+  const { data } = GetPosts();
+  const posts = data as PostType[]
 
   return (
     <section>
-      {posts.length > 0 ? (
+      {posts && posts.length > 0 ? (
         <div className="flex flex-col lg:max-w-[950px] max-w-full lg:gap-y-8 gap-y-12 mb-12">
           {posts.map((post) =>
             post.isPublished !== true ? null : (

@@ -1,7 +1,6 @@
 // app/about/page.tsx
-
+'use client'
 import Image from "next/image";
-import { Metadata } from "next";
 import { profileQuery } from "@/lib/sanity.query";
 import type { ProfileType } from "@/types";
 import { PortableText } from "@portabletext/react";
@@ -13,24 +12,25 @@ import { Slide } from "../animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import PageHeading from "@/app/components/shared/PageHeading";
 import { API_ENDPOINT } from "@/lib/env.api";
+import useSWR from 'swr'
 
-export const metadata: Metadata = {
-  title: "About | Preshma Linet Pereira",
-  metadataBase: new URL(API_ENDPOINT + "/about"),
-  description: "Learn more about my skills, experience and technical background",
-  openGraph: {
-    title: "About | Preshma Linet Pereira",
-    url: API_ENDPOINT + "/about",
-    description: "Learn more about my skills, experience and technical background",
-    images: "https://drive.google.com/uc?export=view&id=1tG0RhLD9NHBrmM25qM9K2ayiADSVbFb-",
-  },
-};
-
-export default async function About() {
-  const profile: ProfileType[] = await sanityFetch({
-    query: profileQuery,
-    tags: ["profile"],
-  });
+export default function About() {
+  // const profile: ProfileType[] = await sanityFetch({
+  //   query: profileQuery,
+  //   tags: ["profile"],
+  // });
+  function GetProfile() {
+    const { data, error, isLoading } = useSWR({query:profileQuery, tags:["profile"]}, sanityFetch);
+  
+    return {
+      data : data,
+      isLoading,
+      isError: error,
+    };
+    
+  }
+  const { data} = GetProfile();
+  const profile = data as ProfileType[]
 
   return (
     <main className="relative lg:max-w-7xl mx-auto max-w-3xl md:px-16 px-6">

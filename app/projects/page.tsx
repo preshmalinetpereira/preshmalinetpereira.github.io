@@ -1,35 +1,32 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
-import { Metadata } from "next";
 import { projectsQuery } from "@/lib/sanity.query";
 import type { ProjectType } from "@/types";
 import EmptyState from "../components/shared/EmptyState";
 import { Slide } from "../animation/Slide";
 import { sanityFetch } from "@/lib/sanity.client";
 import PageHeading from "../components/shared/PageHeading";
-import { API_ENDPOINT } from "@/lib/env.api";
-// #TODO
-export const metadata: Metadata = {
-  title: "Projects | Linet Preshma Pereira",
-  metadataBase: new URL(API_ENDPOINT + "/projects"),
-  description: "Explore projects built by Linet Preshma Pereira",
-  openGraph: {
-    title: "Projects | Linet Preshma Pereira",
-    url: API_ENDPOINT + "/projects",
-    description: "Explore projects built by Linet Preshma Pereira",
-    images:
-      "https://drive.google.com/uc?export=view&id=1o6D4FN3RfGKybAooP34G6D7VwGbkiotg",
-  },
-};
+import useSWR from 'swr'
 
-export default async function Project() {
-  const projects: ProjectType[] = await sanityFetch({
-    query: projectsQuery,
-    tags: ["project"],
-  });
+function GetProjects() {
+  const { data, error, isLoading } = useSWR({query:projectsQuery, tags:["project"]}, sanityFetch);
+  return {
+    data : data,
+    isLoading,
+    isError: error,
+  };
+}
 
+export default function Project() {
+  // const projects: ProjectType[] = await sanityFetch({
+  //   query: projectsQuery,
+  //   tags: ["project"],
+  // });
+
+  const { data, isLoading, isError } = GetProjects();
+  const projects = data as ProjectType[]
   
-
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6">
       <PageHeading
@@ -38,7 +35,7 @@ export default async function Project() {
       />
 
       <Slide delay={0.1}>
-        {projects.length > 0 ? (
+        {projects && projects.length > 0 ? (
           <section className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-5 mb-12">
             {projects.map((project) => (
               <Link

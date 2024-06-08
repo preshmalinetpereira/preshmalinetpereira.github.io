@@ -1,6 +1,5 @@
 import { Slide } from "../animation/Slide";
 import Image from "next/image";
-import { Metadata } from "next";
 import PageHeading from "@/app/components/shared/PageHeading";
 
 const images = [
@@ -17,20 +16,6 @@ const images = [
     src: "https://images.unsplash.com/photo-1585619443911-c2bb23fb2a49?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80",
   },
 ];
-
-// #TODO
-
-export const metadata: Metadata = {
-  title: "Photos | Linet Preshma Pereira",
-  metadataBase: new URL("http://localhost:3000/photos"),
-  description: "Explore photos taken by Linet Preshma Pereira",
-  openGraph: {
-    title: "Photos | Linet Preshma Pereira",
-    url: "http://localhost:3000/photos",
-    description: "Explore photos taken by Linet Preshma Pereira",
-    images: "https://drive.google.com/uc?export=view&id=1tG0RhLD9NHBrmM25qM9K2ayiADSVbFb-",
-  },
-};
 
 export default function Photos() {
   return (

@@ -1,22 +1,8 @@
-import { Metadata } from "next";
 import { BiDetail } from "react-icons/bi";
 import Posts from "../components/pages/Posts";
 import Social from "../components/shared/Social";
 import { Slide } from "../animation/Slide";
 import PageHeading from "@/app/components/shared/PageHeading";
-import { API_ENDPOINT } from "@/lib/env.api";
-// #TODO
-export const metadata: Metadata = {
-  title: "Blogs | Linet Preshma Pereira",
-  metadataBase: new URL(API_ENDPOINT + "/blog"),
-  description: "Read latest stories from Linet Preshma Pereira's Blog",
-  openGraph: {
-    title: "Blogs | Linet Preshma Pereira",
-    url: API_ENDPOINT + "/blog",
-    description: "Read latest stories from Linet Preshma Pereira's Blog",
-    images: "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q",
-  },
-};
 
 export default async function Blog() {
   return (

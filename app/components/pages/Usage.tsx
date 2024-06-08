@@ -1,14 +1,29 @@
+'use client'
 import { PortableText } from "@portabletext/react";
 import { profileQuery } from "@/lib/sanity.query";
 import type { ProfileType } from "@/types";
 import { CustomPortableTextFavicon } from "../shared/CustomPortableTextFavicon";
 import { sanityFetch } from "@/lib/sanity.client";
+import useSWR from 'swr'
 
-export default async function Usage() {
-  const profile: ProfileType[] = await sanityFetch({
-    query: profileQuery,
-    tags: ["profile"],
-  });
+export default function Usage() {
+  // const profile: ProfileType[] = await sanityFetch({
+  //   query: profileQuery,
+  //   tags: ["profile"],
+  // });
+
+  function GetProfile() {
+    const { data, error, isLoading } = useSWR({query:profileQuery, tags:["profile"]}, sanityFetch);
+  
+    return {
+      data : data,
+      isLoading,
+      isError: error,
+    };
+    
+  }
+  const { data} = GetProfile();
+  const profile = data as ProfileType[]
 
   return (
     <section className="max-w-2xl">

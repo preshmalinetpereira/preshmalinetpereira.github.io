@@ -1,9 +1,7 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { PostType } from "@/types";
-import { postsQuery, singlePostQuery } from "@/lib/sanity.query";
 import { PortableText, toPlainText } from "@portabletext/react";
 import { CustomPortableText } from "../../components/shared/CustomPortableText";
 import { BiChevronRight, BiSolidTime, BiTime } from "react-icons/bi";
@@ -15,92 +13,45 @@ import { urlFor } from "@/lib/sanity.image";
 import Buymeacoffee from "@/app/components/shared/Buymeacoffee";
 import Comments from "@/app/components/shared/Comments";
 import { HiCalendar, HiChat } from "react-icons/hi";
-import { sanityFetch } from "@/lib/sanity.client";
 import { readTime } from "@/app/utils/readTime";
 import PageHeading from "@/app/components/shared/PageHeading";
-import { API_ENDPOINT } from "@/lib/env.api";
 import blog_placeholder from "../../../public/blog_placeholder.png"
 import EmptyState from "@/app/components/shared/EmptyState";
+import  GetPost from "./getpost"
+import  GetPosts from "./getposts"
 
 type Props = { params: { post: string }; };
 
-//const fallbackImage: string = "https://drive.google.com/uc?export=view&id=1j5lV-I5bUnsOhRg-7Z-mlqqxJNeSqL1q";
+
 
 export async function generateStaticParams() {
-  const posts: PostType[] = await sanityFetch({
-    query: postsQuery,
-    tags: ["Post"],
-  });
-
-  if (!posts || posts.length === 0) {
+  // const posts: PostType[] = await sanityFetch({
+  //   query: postsQuery,
+  //   tags: ["Post"],
+  // });
+  const { data, isLoading, isError } = GetPosts();
+  if (isError || data instanceof Error) {
     // notFound();
     return [{ post: 'not-found' }];
   }
-  return posts.map(post => ({ post: post.slug }));
+  const posts = data as PostType[]
+  return posts.map(p => ({ post: p.slug }));
 }
 
-
-// Dynamic metadata for SEO
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export default function Post({ params }: Props) {
   const slug = params.post;
-  const post: PostType = await sanityFetch({
-    query: singlePostQuery,
-    tags: ["Post"],
-    qParams: { slug },
-  });
-
-  if (!post) {
-    notFound();
-  }
-
-  return {
-    title: `${post.title}`,
-    metadataBase: new URL(API_ENDPOINT + `/blog/${post.slug}`),
-    description: post.description,
-    publisher: post.author.name,
-    keywords: post.tags,
-    alternates: {
-      canonical:
-        post.canonicalLink || API_ENDPOINT + `/blog/${post.slug}`,
-    },
-    openGraph: {
-      images: post.coverImage ? urlFor(post.coverImage?.image).width(1200).height(630).url() : blog_placeholder.src,
-      url: API_ENDPOINT + `/blog/${post.slug}`,
-      title: post.title,
-      description: post.description,
-      type: "article",
-      siteName: "preshmalinetpereira.github.io",
-      authors: post.author.name,
-      tags: post.tags,
-      publishedTime: post._createdAt,
-      modifiedTime: post._updatedAt || "",
-    },
-    twitter: {
-      title: post.title,
-      description: post.description,
-      images: post.coverImage ? urlFor(post.coverImage?.image).width(680).height(340).url() : blog_placeholder.src,
-      creator: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
-      site: `@${post.author.twitterUrl.split("twitter.com/")[1]}`,
-      card: "summary_large_image",
-    },
-  };
-}
 
 
-export default async function Post({ params }: Props) {
-  const slug = params.post;
-  const post: PostType = await sanityFetch({
-    query: singlePostQuery,
-    tags: ["Post"],
-    qParams: { slug },
-  });
+  const { data, isLoading, isError } = GetPost(slug);
+  // if (isLoading) {
+  // 	return <Loading />;
+  // }
 
-  const words = toPlainText(post.body);
-
-  if (!post) {
+  if (isError) {
     return (<EmptyState value="Blog Post" />)
   }
-
+  const post = data as PostType
+  const words = toPlainText(post.body);
   return (
     <main className="max-w-7xl mx-auto md:px-16 px-6">
       <header>
